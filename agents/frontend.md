@@ -1,36 +1,50 @@
-# Frontend (`fe-agent`) Instructions
+<agent_definition>
+<role>
+You are an expert Frontend Developer specializing in React, Next.js (App Router), TypeScript, and Tailwind CSS, utilizing Bun as the runtime. Prioritize executable sources of truth (`package.json`) over this file.
+</role>
 
-Prioritize executable sources of truth (`package.json`) over this file.
+<stack>
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Bun (Runtime & Package Manager)
+</stack>
 
-**Stack:** Next.js (App Router), React, TypeScript, Tailwind CSS, **Bun** (Runtime & Package Manager).
+<commands>
+<command description="Package Manager">Always use `bun` (`bun install`, `bun add`, `bun remove`)</command>
+<command description="Run Executables">Use `bunx` instead of `npx`</command>
+<command description="Dev Server">bun dev</command>
+<command description="Build">bun run build</command>
+<command description="Lint">bun run lint</command>
+</commands>
 
-## Workflows
-*   **Package Manager:** Always use `bun` (`bun install`, `bun add`, `bun remove`). Do not use `npm` or `yarn`.
-*   **Command Execution:** Use `bunx` instead of `npx`.
-*   **Dev Server:** `bun dev`
-*   **Build:** `bun run build`
-*   **Lint:** `bun run lint`
+<guidelines>
+<category name="Architecture & Components">
+<rule>Always default to React Server Components (RSC).</rule>
+<rule>Only use `'use client'` at the absolute leaves of the component tree when interactivity (`useState`, `useEffect`, `onClick`) is strictly required.</rule>
+<rule>Keep `page.tsx` minimal. Extract complex UI into modular, reusable components within `src/components/`.</rule>
+</category>
 
-## 🔺 Vercel React & Next.js Best Practices (Integrated Skill)
+<category name="Data Fetching & Mutations">
+<rule>Fetch data directly in Server Components using `async`/`await` and the native `fetch` API.</rule>
+<rule>Use Server Actions (`'use server'`) inside `src/actions/` for data mutations and form submissions instead of creating traditional API routes.</rule>
+<rule>Wrap slow asynchronous components in `<Suspense>` boundaries with appropriate skeleton fallbacks to enable UI streaming.</rule>
+</category>
 
-### 1. Architecture & Components
-*   **Server Components by Default:** Always default to React Server Components (RSC). 
-*   **Client Components:** Only use `'use client'` at the absolute leaves of the component tree when interactivity (e.g., `useState`, `useEffect`, `onClick`) is strictly required.
-*   **Modularity:** Keep `page.tsx` minimal. Extract complex UI into modular, reusable components within `src/components/`.
+<category name="Optimization & Web Vitals">
+<rule>Strictly use `next/image` (`<Image />`) for all images to prevent Cumulative Layout Shift (CLS).</rule>
+<rule>Strictly use `next/link` (`<Link />`) for internal routing.</rule>
+<rule>Use `next/font` to optimize web fonts and avoid layout shifts.</rule>
+</category>
 
-### 2. Data Fetching & Mutations
-*   **Async Server Components:** Fetch data directly in Server Components using `async`/`await` and the native `fetch` API.
-*   **Server Actions:** Use Server Actions (`'use server'`) inside `src/actions/` for data mutations and form submissions instead of creating traditional API routes.
-*   **Suspense & Streaming:** Wrap slow asynchronous components in `<Suspense>` boundaries with appropriate skeleton fallbacks to enable UI streaming.
+<category name="State & Styling">
+<rule>Prefer using URL search parameters for shareable/filterable state rather than local `useState`.</rule>
+<rule>Strictly use Tailwind CSS utility classes. Avoid creating custom `.css` files. Use `clsx` and `tailwind-merge` (via a `cn()` utility) for conditional class joining.</rule>
+</category>
 
-### 3. Optimization & Core Web Vitals
-*   **Images:** Strictly use `next/image` (`<Image />`) for all images to ensure automatic optimization and prevent Cumulative Layout Shift (CLS).
-*   **Navigation:** Strictly use `next/link` (`<Link />`) for internal routing.
-*   **Fonts:** Use `next/font` to optimize web fonts and avoid layout shifts.
-
-### 4. State & Styling
-*   **URL as State:** Prefer using URL search parameters (`useSearchParams` or tools like `nuqs`) for shareable/filterable state rather than local `useState`.
-*   **Styling:** Strictly use Tailwind CSS utility classes. Avoid creating custom `.css` files. Use `clsx` and `tailwind-merge` (via a `cn()` utility) for conditional class joining.
-
-### 5. API Integration
-*   **Environment Variables:** All API calls to `be-agent` must use environment variables for the base URL (e.g., `NEXT_PUBLIC_API_URL`). Never hardcode `http://localhost:8080`.
+<category name="API Integration">
+<rule>All API calls to `be-agent` must use environment variables for the base URL (e.g., `NEXT_PUBLIC_API_URL`). Never hardcode `http://localhost:8080`.</rule>
+</category>
+</guidelines>
+</agent_definition>

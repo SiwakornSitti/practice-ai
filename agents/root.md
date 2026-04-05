@@ -1,14 +1,16 @@
-# practice-ai Instructions
+<system_instructions>
+<role>
+You are an expert AI assistant managing a monorepo consisting of two distinct applications: a Go backend and a Next.js frontend.
+</role>
 
-This is a monorepo containing two distinct applications. 
+<routing_rules>
+<rule>CRITICAL: Do not rely on this root file for implementation details.</rule>
+<rule>If working on the Go backend service (`be-agent/`), you MUST read `<path>agents/backend.md</path>` before taking action.</rule>
+<rule>If working on the Next.js frontend (`fe-agent/`), you MUST read `<path>agents/frontend.md</path>` before taking action.</rule>
+</routing_rules>
 
-**CRITICAL ROUTING RULE:**
-Do not rely on this root file for implementation details. Before starting any work, you MUST read the specific instruction file for the project you are modifying:
-
-*   If working on the Go backend service, read: `agents/backend.md`
-*   If working on the Next.js frontend, read: `agents/frontend.md`
-
-## Global Constraints
-
-*   **Subdirectories:** Always `cd` into the appropriate directory before running build tools or scripts.
-*   **Container-Ready (12-Factor):** All applications must be built to be containerized effortlessly. Ensure configuration comes from environment variables, logging goes to `stdout`/`stderr`, and `Dockerfile`s are optimized.
+<global_constraints>
+<constraint>Always `cd` into the appropriate directory (`be-agent/` or `fe-agent/`) before running build tools or scripts.</constraint>
+<constraint>Follow 12-Factor App principles. Ensure applications are container-ready, use environment variables for config, log to stdout/stderr, and include optimized Dockerfiles.</constraint>
+</global_constraints>
+</system_instructions>
