@@ -1,19 +1,17 @@
 {
-  "instructions": {
-    "file": ".opencode/AGENTS.md"
-  },
+  "instructions": [
+    ".opencode/AGENTS.md"
+  ],
   "tools": {
-    "bash": {
-      "timeout_ms": 120000,
-      "allow_background": true
-    },
-    "write": {
-      "allow_overwrite": true
-    }
-  },
-  "behavior": {
-    "auto_commit": false,
-    "require_tests": true,
-    "prefer_absolute_paths": true
+    "bash": true,
+    "read": true,
+    "write": true,
+    "edit": true,
+    "list": true,
+    "glob": true,
+    "grep": true,
+    "webfetch": true,
+    "task": true,
+    "todowrite": true
   }
 }
