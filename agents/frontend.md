@@ -2,12 +2,14 @@
 
 Prioritize executable sources of truth (`package.json`) over this file.
 
-**Stack:** Next.js (App Router), React, TypeScript, Tailwind CSS.
+**Stack:** Next.js (App Router), React, TypeScript, Tailwind CSS, **Bun** (Runtime & Package Manager).
 
 ## Workflows
-*   **Dev Server:** `npm run dev`
-*   **Build:** `npm run build`
-*   **Lint:** `npm run lint`
+*   **Package Manager:** Always use `bun` (`bun install`, `bun add`, `bun remove`). Do not use `npm` or `yarn`.
+*   **Command Execution:** Use `bunx` instead of `npx`.
+*   **Dev Server:** `bun dev`
+*   **Build:** `bun run build`
+*   **Lint:** `bun run lint`
 
 ## 🔺 Vercel React & Next.js Best Practices (Integrated Skill)
 
