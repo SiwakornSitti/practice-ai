@@ -23,6 +23,10 @@ build:
 	@echo "Building $(BINARY_NAME)..."
 	@$(GOBUILD) -o bin/$(BINARY_NAME) $(MAIN_PATH)
 
+docker-build:
+	@echo "Building docker image..."
+	@docker build -t $(BINARY_NAME):latest .
+
 test:
 	@echo "Running tests..."
 	@$(GOTEST) -v ./...

@@ -30,3 +30,8 @@ Go backend using **Clean Architecture, packaged by feature**.
 *   **Routing:** Stick to standard library `net/http` for existing features. Do not introduce Gin, Chi, Fiber, etc., without explicit permission.
 *   **Security Focus:** Prioritize security. Proactively implement input validation, JWT middleware, secure headers, and SQL-injection-safe queries.
 *   **Graceful Shutdown:** The `main` entrypoint must implement a graceful shutdown mechanism catching OS signals (`SIGINT`, `SIGTERM`) to ensure in-flight requests and connections are closed properly before exiting.
+*   **Container-Ready (12-Factor):** All applications must be built to be containerized effortlessly. This means:
+    1.  **Configuration:** Use strictly environment variables (`os.Getenv`). No hardcoded credentials or local config files.
+    2.  **Logging:** Log entirely to `stdout`/`stderr` using structured or standard loggers. Do not log to local files.
+    3.  **Health Checks:** Always provide a `GET /health` or `GET /` readiness probe endpoint.
+    4.  **Dockerfiles:** Proactively create multi-stage `Dockerfile`s using minimal scratch or alpine images. Build with `CGO_ENABLED=0`.
