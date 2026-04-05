@@ -25,6 +25,7 @@ The application is a Go backend service built using **Clean Architecture** and i
 
 ## Context & Operational Gotchas
 
+*   **Unit Testing:** **All new code must have unit testing.** Agents MUST proactively write unit tests alongside any new business logic (`usecase`), HTTP handlers (`delivery`), or database interactions (`repository`). Utilize Go's built-in `testing` package.
 *   **Before Starting New Features:** **Agents MUST use the `question` tool to ask the user which web framework they wish to use** before building new Delivery layers, unless it is already explicitly clear from existing code or prompts.
 *   **Routing:** Currently using standard library `net/http`. Do not introduce external routers (like Gin, Chi, or Fiber) unless explicitly requested by the user.
 *   **Dependencies:** Run `make tidy` after adding any new dependencies or creating new files that import external packages.
