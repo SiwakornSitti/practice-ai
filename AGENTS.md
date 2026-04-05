@@ -29,3 +29,4 @@ Go backend using **Clean Architecture, packaged by feature**.
 *   **Ask Before Delivery:** Use the `question` tool to ask the user which web framework to use *before* building new Delivery layers, unless explicitly specified.
 *   **Routing:** Stick to standard library `net/http` for existing features. Do not introduce Gin, Chi, Fiber, etc., without explicit permission.
 *   **Security Focus:** Prioritize security. Proactively implement input validation, JWT middleware, secure headers, and SQL-injection-safe queries.
+*   **Graceful Shutdown:** The `main` entrypoint must implement a graceful shutdown mechanism catching OS signals (`SIGINT`, `SIGTERM`) to ensure in-flight requests and connections are closed properly before exiting.
