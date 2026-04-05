@@ -1,37 +1,55 @@
 # Agent Instructions
 
-Context for the `practice-ai` repository. Prioritize executable sources of truth (`be-agent/Makefile`, `be-agent/go.mod`) over this file.
+Context for the `practice-ai` repository. Prioritize executable sources of truth over this file.
 
-## Workflows & Commands
+## Global Constraints & Gotchas
 
-**CRITICAL:** The Go project is in a subdirectory. You must `cd be-agent` before running any commands.
+*   **Subdirectories:** The repository is split into `be-agent` (backend) and `fe-agent` (frontend). Always `cd` into the appropriate directory before running commands.
+*   **Container-Ready (12-Factor):** All applications must be built to be containerized effortlessly. This means:
+    1.  **Configuration:** strictly use environment variables (`os.Getenv` or `process.env`).
+    2.  **Logging:** Log entirely to `stdout`/`stderr`.
+    3.  **Health Checks:** Provide readiness probes (e.g., `GET /health`).
+    4.  **Dockerfiles:** Proactively create multi-stage `Dockerfile`s optimized for production.
 
+---
+
+## Backend (`be-agent`)
+
+**Stack:** Go, standard `net/http`.
+
+### Workflows
 *   **Dev Server:** `make run`
-*   **Build:** `make build` (outputs to `be-agent/bin/`)
+*   **Build:** `make build`
 *   **Test:** `make test`
-*   **Lint:** `make lint` (Requires `golangci-lint`)
-*   **Dependencies:** Run `make tidy` after importing new packages.
+*   **Dependencies:** `make tidy`
 
-## Architecture
-
-Go backend using **Clean Architecture, packaged by feature**.
-
-*   **Entrypoint:** `be-agent/cmd/api/main.go`
+### Architecture
+*   **Clean Architecture, packaged by feature.**
 *   **Structure:** `be-agent/internal/{feature}/`
     *   `domain/`: Entities and interfaces. Zero external dependencies.
-    *   `usecase/`: Business logic. Depends only on `domain/`.
-    *   `repository/`: Data access. Implements `domain/` interfaces.
-    *   `delivery/`: Transport (HTTP handlers, etc). Depends on `usecase/`.
+    *   `usecase/`: Business logic.
+    *   `repository/`: Data access.
+    *   `delivery/`: Transport (HTTP handlers).
 
-## Agent Constraints & Gotchas
+### Backend Rules
+*   **Unit Tests Mandatory:** Write unit tests for all `usecase`, `delivery`, and `repository` code.
+*   **Routing:** Stick to standard library `net/http`. No external routers unless permitted.
+*   **Security Focus:** Implement input validation, JWT middleware, secure headers, and SQL-injection-safe queries.
+*   **Graceful Shutdown:** Catch `SIGINT`/`SIGTERM` to ensure in-flight requests close properly.
 
-*   **Unit Tests Mandatory:** Proactively write unit tests (using the standard `testing` package) alongside all new `usecase`, `delivery`, and `repository` code. Do not skip testing.
-*   **Ask Before Delivery:** Use the `question` tool to ask the user which web framework to use *before* building new Delivery layers, unless explicitly specified.
-*   **Routing:** Stick to standard library `net/http` for existing features. Do not introduce Gin, Chi, Fiber, etc., without explicit permission.
-*   **Security Focus:** Prioritize security. Proactively implement input validation, JWT middleware, secure headers, and SQL-injection-safe queries.
-*   **Graceful Shutdown:** The `main` entrypoint must implement a graceful shutdown mechanism catching OS signals (`SIGINT`, `SIGTERM`) to ensure in-flight requests and connections are closed properly before exiting.
-*   **Container-Ready (12-Factor):** All applications must be built to be containerized effortlessly. This means:
-    1.  **Configuration:** Use strictly environment variables (`os.Getenv`). No hardcoded credentials or local config files.
-    2.  **Logging:** Log entirely to `stdout`/`stderr` using structured or standard loggers. Do not log to local files.
-    3.  **Health Checks:** Always provide a `GET /health` or `GET /` readiness probe endpoint.
-    4.  **Dockerfiles:** Proactively create multi-stage `Dockerfile`s using minimal scratch or alpine images. Build with `CGO_ENABLED=0`.
+---
+
+## Frontend (`fe-agent`)
+
+**Stack:** Next.js (App Router), React, TypeScript, Tailwind CSS.
+
+### Workflows
+*   **Dev Server:** `npm run dev`
+*   **Build:** `npm run build`
+*   **Lint:** `npm run lint`
+
+### Frontend Rules
+*   **Server Components Default:** Default to React Server Components (RSC). Only use `'use client'` at the leaves of the component tree when interactivity or hooks (useState, useEffect) are strictly required.
+*   **Styling:** Strictly use Tailwind CSS utility classes. Avoid custom CSS files.
+*   **API Integration:** All API calls to `be-agent` must use environment variables for the base URL (e.g., `NEXT_PUBLIC_API_URL`). Never hardcode `http://localhost:8080`.
+*   **Modularity:** Keep pages minimal. Extract complex UI into modular components within `src/components/`.
