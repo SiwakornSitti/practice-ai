@@ -25,6 +25,7 @@ The application is a Go backend service built using **Clean Architecture** and i
 
 ## Context & Operational Gotchas
 
+*   **Before Starting New Features:** **Agents MUST use the `question` tool to ask the user which web framework they wish to use** before building new Delivery layers, unless it is already explicitly clear from existing code or prompts.
 *   **Routing:** Currently using standard library `net/http`. Do not introduce external routers (like Gin, Chi, or Fiber) unless explicitly requested by the user.
 *   **Dependencies:** Run `make tidy` after adding any new dependencies or creating new files that import external packages.
 *   **Security Context:** The user has indicated a priority on making the application secure. Proactively consider input validation, safe database queries (avoid SQL injection), secure headers, and authentication middleware when building out the Delivery and Repository layers.
