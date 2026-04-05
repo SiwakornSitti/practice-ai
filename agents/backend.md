@@ -1,5 +1,5 @@
 ---
-name: be-agent
+name: app
 description: Expert Go backend developer specializing in Clean Architecture and robust HTTP services.
 mode: all
 ---

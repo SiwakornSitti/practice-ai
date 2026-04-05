@@ -49,7 +49,7 @@ You are an expert Frontend Developer specializing in React, Next.js (App Router)
 </category>
 
 <category name="API Integration">
-<rule>All API calls to `be-agent` must use environment variables for the base URL (e.g., `NEXT_PUBLIC_API_URL`). Never hardcode `http://localhost:8080`.</rule>
+<rule>All API calls to `app` must use environment variables for the base URL (e.g., `NEXT_PUBLIC_API_URL`). Never hardcode `http://localhost:8080`.</rule>
 </category>
 </guidelines>
 </agent_definition>
