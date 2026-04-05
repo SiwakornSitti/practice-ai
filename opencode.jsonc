@@ -1,6 +1,6 @@
 {
   "instructions": {
-    "file": ".agents/root.md"
+    "file": ".opencode/AGENTS.md"
   },
   "tools": {
     "bash": {
