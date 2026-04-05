@@ -1,5 +1,19 @@
 {
   "instructions": {
     "file": "agents/root.md"
+  },
+  "tools": {
+    "bash": {
+      "timeout_ms": 120000,
+      "allow_background": true
+    },
+    "write": {
+      "allow_overwrite": true
+    }
+  },
+  "behavior": {
+    "auto_commit": false,
+    "require_tests": true,
+    "prefer_absolute_paths": true
   }
 }
