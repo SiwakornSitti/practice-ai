@@ -10,11 +10,18 @@ import (
 	"syscall"
 	"time"
 
+	_ "github.com/SiwakornSitti/practice-ai/app/cmd/api/docs"
 	"github.com/SiwakornSitti/practice-ai/app/internal/user/delivery"
 	"github.com/SiwakornSitti/practice-ai/app/internal/user/repository"
 	"github.com/SiwakornSitti/practice-ai/app/internal/user/usecase"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
+// @title           Practice AI API
+// @version         1.0
+// @description     A sample backend service for Practice AI
+// @host            localhost:8080
+// @BasePath        /
 func main() {
 	// Secret key for JWT. In production, load from environment variable
 	jwtSecret := os.Getenv("JWT_SECRET")
@@ -33,6 +40,9 @@ func main() {
 
 	// Register Handlers
 	delivery.NewUserHandler(mux, userUsecase, jwtSecret)
+
+	// Swagger UI
+	mux.HandleFunc("GET /swagger/*", httpSwagger.WrapHandler)
 
 	// Add a simple health check route
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {

@@ -96,6 +96,17 @@ func (h *userHandler) authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// Register godoc
+// @Summary Register a new user
+// @Description Creates a new user account
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body domain.RegisterRequest true "Registration details"
+// @Success 201 {object} domain.AuthResponse
+// @Failure 400 {object} map[string]string
+// @Failure 409 {object} map[string]string
+// @Router /register [post]
 func (h *userHandler) Register(w http.ResponseWriter, r *http.Request) {
 	var req domain.RegisterRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
