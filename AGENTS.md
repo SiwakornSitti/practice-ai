@@ -1,29 +1,35 @@
 # Agent Instructions
 
-This file contains repository-specific context for OpenCode sessions. When in doubt, prioritize executable sources of truth (config files, scripts) over this file.
+This file contains repository-specific context for OpenCode sessions working on the `practice-ai` repository. Prioritize executable sources of truth (like the Makefile or go.mod) over this file.
 
 ## Core Workflows & Commands
 
-*   **Build:** `[INSERT BUILD COMMAND]`
-*   **Test:** `[INSERT TEST COMMAND]`
-*   **Lint/Format:** `[INSERT LINT/FORMAT COMMAND]`
-*   **Check:** `[INSERT TYPECHECK/STATIC ANALYSIS COMMAND]`
+All core commands are managed via the `Makefile` inside the `be-agent` directory. Always `cd be-agent` before running these.
 
-*   **Execution Order:** If order matters for verification (e.g., `lint` must precede `test`), specify it here.
+*   **Run Dev Server:** `make run`
+*   **Build:** `make build` (outputs to `be-agent/bin/`)
+*   **Test:** `make test`
+*   **Tidy Modules:** `make tidy`
+*   **Lint:** `make lint` (Requires `golangci-lint`)
 
 ## Project Structure & Architecture
 
-*   **Entrypoints:** `[Point to main app/lib entrypoints]`
-*   **Monorepo/Boundaries:** `[If applicable, define package/directory boundaries]`
-*   **Generated Code:** `[Identify paths containing generated code that should not be manually edited]`
+The application is a Go backend service built using **Clean Architecture** and is organized by **feature** (also known as packaged by feature).
+
+*   **Entrypoint:** `be-agent/cmd/api/main.go`
+*   **Architecture Pattern:** Clean Architecture. When creating or modifying features, you must adhere to this layer structure inside `be-agent/internal/{feature}/`:
+    *   `domain/`: Core business entities, structs, and repository/usecase interfaces. No external dependencies.
+    *   `usecase/`: Business logic implementations. Depends only on `domain/`.
+    *   `repository/`: Data access implementations (e.g., SQL, NoSQL). Implements interfaces defined in `domain/`.
+    *   `delivery/`: Transport layer (e.g., HTTP handlers, gRPC, CLI). Depends on `usecase/`.
 
 ## Context & Operational Gotchas
 
-*   **Environment:** `[Specify required setup, env vars, or specific tool versions]`
-*   **Framework Quirks:** `[Identify non-standard usage or project-specific patterns]`
-*   **Testing:** `[Note prerequisites for tests, fixtures, or known flaky suites]`
+*   **Routing:** Currently using standard library `net/http`. Do not introduce external routers (like Gin, Chi, or Fiber) unless explicitly requested by the user.
+*   **Dependencies:** Run `make tidy` after adding any new dependencies or creating new files that import external packages.
+*   **Security Context:** The user has indicated a priority on making the application secure. Proactively consider input validation, safe database queries (avoid SQL injection), secure headers, and authentication middleware when building out the Delivery and Repository layers.
 
 ## References
 
-*   **Configuration:** `[List key config files like package.json, tsconfig.json, etc.]`
-*   **CI Workflows:** `[Path to CI files]`
+*   **Go Modules:** `be-agent/go.mod`
+*   **Task Runner:** `be-agent/Makefile`
