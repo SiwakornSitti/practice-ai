@@ -5,8 +5,8 @@
 ## Routing Rules
 **CRITICAL:** Do not rely on this root file for implementation details.
 
-*   If working on the Go backend service (`app/`), you MUST read `agents/backend.md` before taking action.
-*   If working on the Next.js frontend (`fe-agent/`), you MUST read `agents/frontend.md` before taking action.
+*   If working on the Go backend service (`app/`), you MUST read `.agents/backend.md` before taking action.
+*   If working on the Next.js frontend (`fe-agent/`), you MUST read `.agents/frontend.md` before taking action.
 
 ## Commit Convention
 We follow [Conventional Commits](https://www.conventionalcommits.org/):

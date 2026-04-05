@@ -1,6 +1,6 @@
 {
   "instructions": {
-    "file": "agents/root.md"
+    "file": ".agents/root.md"
   },
   "tools": {
     "bash": {
